@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#ctx {
+	border: 1px solid black;
+}
+</style>
+</head>
+<body>
+	<canvas id ="ctx" width="780" height="750"></canvas>
+	<audio controls>
+		<source src="Space Invaders - 11_8_15, 1.27 AM (online-audio-converter.com).mp3" type="audio/mpeg">
+	</audio>
+<script>
+	var c = document.getElementById("ctx");
+	var ctx = c.getContext("2d");
+
+	var XBad = 730;
+	var YBad = 20;
+	var x = 0;
+	var enemyCounter = 0;
+	var arrayX = [];
+	var	arrayY = [];
+	var MyVar = setInterval(drawBaddies, 1);
+	var MainX = 10;
+	var MainY = 320;
+	var BulletX;
+	var BulletY;
+
+	drawBaddies();
+	MainCharacter();
+
+	//the main function that draws and stores the Cordinates of the bad guys for later.
+	function drawBaddies() {
+		enemyCounter++;
+		ctx.fillRect(XBad, YBad, 10, 10);
+		YBad += 20;
+		if (YBad == 740) {
+			XBad -= 10;
+			YBad = 20;
+		}
+
+		//Makes sure only 48 Bad Guys are created.
+		if (enemyCounter == 36) {
+			clearInterval(MyVar);
+		}
+
+
+		//Stores the X Cord of each Bad guy in array.
+		for (var i = 0; i < 37; i++) {
+			arrayX[i] = XBad;
+		}	
+
+		//Stores the Y Cord of each Bad guy in array.
+		for (var i = 0; i < 37; i++) {
+			arrayY[i] = YBad;
+		}
+	}
+
+	function MainCharacter() {
+		ctx.fillRect(MainX, MainY, 50, 50);
+	}
+
+	function MoveUp() {
+		
+		if (MainY == 0){
+
+		}else{
+			ctx.clearRect(MainX, MainY, 50, 50);
+			MainY -= 10;
+			ctx.fillRect(MainX, MainY, 50, 50);
+		}
+	}
+
+	function MoveDown() {
+		if (MainY + 50 == 750) {
+
+		}else{
+		ctx.clearRect(MainX, MainY, 50, 50);
+		MainY += 10;
+		ctx.fillRect(MainX, MainY, 50, 50);
+		}
+	}
+
+	function ShootBullet() {
+		BulletX = MainX + 50;
+		BulletY = MainY + 20;
+		ctx.fillRect(BulletX, BulletY, 10, 10);
+		var BulletMove = setInterval(BulletMoveFunction, 1);
+	}
+
+	function BulletMoveFunction() {
+		ctx.clearRect(BulletX, BulletY, 10, 10);
+		BulletX += 2;
+		ctx.fillRect(BulletX, BulletY, 10, 10);
+	}
+
+	
+
+	document.onkeydown = function(e) {
+		switch (e.keyCode) {
+			//Up (Up Arrow Key)
+			case 38:
+				MoveUp();
+				break;
+			//Down (Down Arrow Key)
+			case 40:
+				MoveDown();
+				break;
+			//Shoot Bullet (Space)
+			case 32:
+				ShootBullet();
+				break;
+			}
+	}
+</script>
+</body>
+</html>
